@@ -18,14 +18,23 @@ def main():
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
+    updatables = pygame.sprite.Group()
+    drawables = pygame.sprite.Group()
+    player.containers = (updatables, drawables)
+    for group in player.containers:
+        group.add(player)
+
     while (True):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0, 0, 0))
         dt = clock.tick(60) / 1000 # Returns the amount of time since the last frame
-        player.update(dt)
-        player.draw(screen)
+        updatables.update(dt)
+
+        for object in drawables:
+            object.draw(screen)
+
         pygame.display.flip()
 
 if __name__ == "__main__":
