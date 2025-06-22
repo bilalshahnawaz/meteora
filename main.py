@@ -2,6 +2,7 @@ import pygame
 from database import connect_database, database_version
 from constants import *
 from player import Player
+from meteorfield import MeteorField
 
 
 def main():
@@ -16,13 +17,12 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-
     updatables = pygame.sprite.Group()
     drawables = pygame.sprite.Group()
-    player.containers = (updatables, drawables)
-    for group in player.containers:
-        group.add(player)
+
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, updatables, drawables)
+
+    MeteorField(updatables, drawables, updatables)
 
     while (True):
         for event in pygame.event.get():
