@@ -2,7 +2,7 @@ import pygame
 from database import connect_database, database_version
 from constants import *
 from player import Player
-from meteorfield import MeteorField
+from meteorfield import MeteorField, Meteor
 
 
 def main():
@@ -32,8 +32,14 @@ def main():
         dt = clock.tick(60) / 1000 # Returns the amount of time since the last frame
         updatables.update(dt)
 
-        for object in drawables:
-            object.draw(screen)
+        for obj in drawables:
+            obj.draw(screen)
+            # Check collision only if obj is a Meteor
+            if isinstance(obj, Meteor):
+                if player.checkCollision(obj):
+                    print("Game over!")
+                    exit()
+
 
         pygame.display.flip()
 
