@@ -27,18 +27,17 @@ class Player(CircleShape):
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_a]:
-            self.rotate(-dt)
-        if keys[pygame.K_d]:
-            self.rotate(dt)
-        if keys[pygame.K_w]:
-            self.move(dt)
-        if keys[pygame.K_s]:
-            self.move(-dt)
-        if keys[pygame.K_SPACE]:
-            self.shoot()
-
+        actions = {
+            pygame.K_a: lambda: self.rotate(-dt),
+            pygame.K_d: lambda: self.rotate(dt),
+            pygame.K_w: lambda: self.move(dt),
+            pygame.K_s: lambda: self.move(-dt),
+            pygame.K_SPACE: self.shoot
+        }
+        for key, action in actions.items():
+            if keys[key]:
+                action()
+                
         if self.shoot_timer:
             self.shoot_timer = max(0, self.shoot_timer - dt)
 
